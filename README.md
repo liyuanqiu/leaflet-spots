@@ -8,3 +8,5 @@
 - [ ] User manual
 
 - [ ] Demo page
+
+- [ ] Public to NPM
