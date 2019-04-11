@@ -1,3 +1,14 @@
+### Introduce
+> `leaflet-spots` is a paradigm and tool of rendering spots on a leaflet map.
+
+***Q: What is `spots`?***
+
+A: Assume you have a list of realtime bus data, and you need to draw them on a map. Each bus will be drawn as a `spot`, then you can see them on map.
+
+Users just need to tell the `leaflet-spots` how to parse your metadata data, then `leaflet-spots` do the rest things for you.
+
+---
+
 ### Quick Start
 Assume you have a list of realtime bus data:
 ```json
@@ -68,6 +79,9 @@ const leafletSpots = new LeafletSpots<BusData>({
   metadataParser,
 });
 
+// Add the layer to map
+leafletSpots.getLayer().addTo(map);
+
 // You can see them in your map!
 leafletSpots.setSpots(busList);
 
@@ -78,12 +92,14 @@ const changedBusList: BusData[] = ...;
 changedBusList.forEach(bus => leafletSpots.updateSpot(bus));
 ```
 
+---
+
 ### Road Map
 - [x] Support `Typescript`
 - [ ] Support `Javascript`
 - [ ] Testing
 - [ ] User manual
-  - [ ] Introduce
+  - [x] Introduce
   - [x] Quick Start
   - [ ] API Reference
 - [ ] Demo page
