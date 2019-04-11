@@ -4,7 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "build": "tsc"
+    "lint": "eslint -c .eslintrc.js --ext ts --fix --debug src",
+    "build": "yarn lint && tsc"
   },
   "devDependencies": {
     "@types/leaflet": "^1.4.3",
