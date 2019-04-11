@@ -1,11 +1,15 @@
 ### Introduce
-> `leaflet-spots` is a paradigm and tool of rendering spots on a leaflet map.
+> `leaflet-spots` is a paradigm and tool of rendering spots on a [leaflet](https://leafletjs.com/) map.
 
 ***Q: What is `spots`?***
 
 A: Assume you have a list of realtime bus data, and you need to draw them on a map. Each bus will be drawn as a `spot`, then you can see them on map.
 
-Users just need to tell the `leaflet-spots` how to parse your metadata data, then `leaflet-spots` do the rest things for you.
+> Users just need to tell the `leaflet-spots` how to parse your metadata data, then `leaflet-spots` do the rest things for you.
+
+***Q: What is `leaflet`?***
+
+A: https://leafletjs.com/
 
 ---
 
@@ -30,7 +34,7 @@ Assume you have a list of realtime bus data:
   ...
 ]
 ```
-Now you want to render them on a leaflet map.
+Now you want to render them on a [leaflet](https://leafletjs.com/) map.
 ```typescript
 // This repo has not been published to NPM
 import LeafletSpots, {
@@ -98,6 +102,7 @@ changedBusList.forEach(bus => leafletSpots.updateSpot(bus));
 - [x] Support `Typescript`
 - [ ] Support `Javascript`
 - [ ] Testing
+- [ ] Logo
 - [ ] User manual
   - [x] Introduce
   - [x] Quick Start
