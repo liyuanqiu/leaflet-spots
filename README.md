@@ -1,3 +1,7 @@
+<p align="center">
+  <img width="200" src="./assets/logo.svg">
+</p>
+
 ### Introduce
 > `leaflet-spots` is a paradigm and tool of rendering spots on a [leaflet](https://leafletjs.com/) map.
 
@@ -102,7 +106,7 @@ changedBusList.forEach(bus => leafletSpots.updateSpot(bus));
 - [x] Support `Typescript`
 - [ ] Support `Javascript`
 - [ ] Testing
-- [ ] Logo
+- [x] Logo
 - [ ] User manual
   - [x] Introduce
   - [x] Quick Start
