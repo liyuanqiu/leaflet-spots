@@ -114,7 +114,7 @@ class LeafletSpots<T> {
   public constructor({
     metadataParser,
     spotEvents = {},
-    handleInteractive = () => {},
+    handleInteractive = (): void => {},
   }: LeafletSpotsOptions<T>) {
     this.metadataParser = metadataParser;
     this.spotEvents = spotEvents;
@@ -144,7 +144,7 @@ class LeafletSpots<T> {
     const spotsMap: {
       [id: string]: 1;
     } = {};
-    spots.forEach((metadata: T) => {
+    spots.forEach((metadata: T): void => {
       const id = parseId(metadata);
       spotsMap[id] = 1;
       const spotUnit = this.spots[id];
@@ -156,7 +156,7 @@ class LeafletSpots<T> {
         }
       }
     });
-    Object.keys(this.spots).forEach((id) => {
+    Object.keys(this.spots).forEach((id): void => {
       if (spotsMap[id] === undefined) {
         const { metadata } = this.spots[id];
         this.removeSpot(metadata);
@@ -177,9 +177,9 @@ class LeafletSpots<T> {
       throw new Error('Can\'t add spot. Same id already exists!');
     }
     const shape = parseShape(metadata);
-    Object.keys(this.spotEvents).forEach((eventName) => {
+    Object.keys(this.spotEvents).forEach((eventName): void => {
       const handler = this.spotEvents[eventName];
-      shape.on(eventName, (e) => handler(e, metadata));
+      shape.on(eventName, (e): void => handler(e, metadata));
     });
     shape.addTo(this.layer);
     // handle interactive
@@ -278,7 +278,7 @@ class LeafletSpots<T> {
    * Force rerender all spots
    */
   public forceRender(): void {
-    Object.keys(this.spots).forEach((id) => {
+    Object.keys(this.spots).forEach((id): void => {
       const { metadata } = this.spots[id];
       this.updateSpot(metadata);
     });

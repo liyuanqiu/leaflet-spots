@@ -36,12 +36,12 @@ export default class MetadataParser<T> {
   public parseShouldUpdate: ShouldUpdateParser<T>;
   public parseFilteration: FilterationParser<T>;
 
-  constructor({
+  public constructor({
     parseLatlng,
     parseShape,
     parseId,
-    parseShouldUpdate = () => true,
-    parseFilteration = () => true,
+    parseShouldUpdate = (): boolean => true,
+    parseFilteration = (): boolean => true,
   }: MetadataParserOptions<T>) {
     this.parseLatlng = parseLatlng;
     this.parseShape = parseShape;
