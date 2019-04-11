@@ -45,7 +45,7 @@ export interface LeafletSpotsOptions<T> {
    * The spot events which will be attached to the spot.
    * @template T User data unit
    */
-  spotEvents: SpotEvents<T>;
+  spotEvents?: SpotEvents<T>;
   /**
    * handle interactive like 'selected', 'filtered', etc
    * @template T User data unit
@@ -113,7 +113,7 @@ class LeafletSpots<T> {
 
   public constructor({
     metadataParser,
-    spotEvents,
+    spotEvents = {},
     handleInteractive = () => {},
   }: LeafletSpotsOptions<T>) {
     this.metadataParser = metadataParser;
