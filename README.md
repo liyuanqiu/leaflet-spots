@@ -51,7 +51,7 @@ import LeafletSpots, {
 
 import {
   latLng, LatLng,
-  Map, Path,
+  Map, Layer,
 } from 'leaflet';
 
 // define your data structure
@@ -80,7 +80,7 @@ const metadataParser = new MetadataParser<BusData>({
     return busData.busId;
   },
   // Tell me how to draw a shape according to your data
-  parseShape(busData): Path {
+  parseShape(busData): Layer {
     // Assume `createCircle` returns a Circle of leaflet
     return createCircle(busData);
   },

@@ -61,12 +61,6 @@ const metadataParser = new MetadataParser<BusData>({
     return marker([busData.lat, busData.lng], {
       icon: busIcon,
     });
-    /*
-    return circleMarker(latLng(busData.lat, busData.lng), {
-      color: `hsla(${360 / MAX_PASSENGER * busData.passenger}, 100%, 50%, 1)`,
-      radius: 5,
-    });
-    */
   },
 });
 
