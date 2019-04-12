@@ -111,4 +111,4 @@ changedBusList.forEach(bus => leafletSpots.updateSpot(bus));
   - [x] Quick Start
   - [ ] API Reference
 - [ ] Demo page
-- [ ] Public to NPM
+- [x] Publish to NPM
