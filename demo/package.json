@@ -1,0 +1,20 @@
+{
+  "name": "demo",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "author": "yuanqiulee@gmail.com",
+  "license": "MIT",
+  "scripts": {
+    "build": "webpack --mode production"
+  },
+  "dependencies": {
+    "leaflet": "^1.4.0",
+    "leaflet-spots": "^0.0.4"
+  },
+  "devDependencies": {
+    "ts-loader": "^5.3.3",
+    "typescript": "^3.4.3",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.3.0"
+  }
+}
