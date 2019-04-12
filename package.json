@@ -1,6 +1,6 @@
 {
   "name": "leaflet-spots",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "src/index.ts",
   "license": "MIT",
   "scripts": {
@@ -18,8 +18,8 @@
     "leaflet": "^1.4.0"
   },
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/liyuanqiu/leaflet-spots"
+    "type": "git",
+    "url": "https://github.com/liyuanqiu/leaflet-spots"
   },
   "files": [
     "src",
