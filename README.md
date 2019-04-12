@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="200" src="./assets/logo.svg">
+  <img width="200" src="https://github.com/liyuanqiu/leaflet-spots/raw/master/assets/logo.svg?sanitize=true">
 </p>
 
 ### Introduce
