@@ -14,7 +14,7 @@ import {
 
 const CENTER: LatLngExpression = [33.483249, -86.745463];
 const MAX_PASSENGER = 50;
-const TILE_TEMPLATE = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw';
+const TILE_TEMPLATE = 'https://maps.googleapis.com/maps/vt?pb=!1m5!1m4!1i{z}!2i{x}!3i{y}!4i256!2m3!1e0!2sm!3i462170336!3m9!2szh-CN!3sUS!5e18!12m1!1e68!12m3!1e37!2m1!1ssmartmaps!4e0!5m1!5f2&key=AIzaSyDk4C4EBWgjuL1eBnJlu1J80WytEtSIags&token=79092';
 
 // define your data structure
 interface BusData {
@@ -28,10 +28,7 @@ interface BusData {
 // Create a leaflet map instance
 const map: Map = ((): Map => {
   const map = createMap('map-container').setView(CENTER, 8);
-  tileLayer(TILE_TEMPLATE, {
-    maxZoom: 18,
-    id: 'mapbox.streets'
-  } as unknown as TileLayerOptions).addTo(map);
+  tileLayer(TILE_TEMPLATE).addTo(map);
   return map;
 })();
 
