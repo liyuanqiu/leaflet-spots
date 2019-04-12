@@ -1,15 +1,14 @@
 import LeafletSpots, {
   MetadataParser,
-} from 'leaflet-spots';
+} from '../src/index';
 
 import {
   latLng, LatLng,
   map as createMap,
   tileLayer,
-  Map, Path,
-  circleMarker,
+  Map, Layer,
   LatLngExpression,
-  TileLayerOptions,
+  icon, marker,
 } from 'leaflet';
 
 const CENTER: LatLngExpression = [33.483249, -86.745463];
@@ -54,11 +53,20 @@ const metadataParser = new MetadataParser<BusData>({
     return busData.busId;
   },
   // Tell me how to draw a shape according to your data
-  parseShape(busData: BusData): Path {
+  parseShape(busData: BusData): Layer {
+    const busIcon = icon({
+      iconUrl: 'bus.svg',
+      iconSize: [30, 30],
+    });
+    return marker([busData.lat, busData.lng], {
+      icon: busIcon,
+    });
+    /*
     return circleMarker(latLng(busData.lat, busData.lng), {
       color: `hsla(${360 / MAX_PASSENGER * busData.passenger}, 100%, 50%, 1)`,
       radius: 5,
     });
+    */
   },
 });
 

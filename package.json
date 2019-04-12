@@ -25,5 +25,8 @@
     "src",
     "dist",
     "assets"
-  ]
+  ],
+  "dependencies": {
+    "leaflet": "^1.4.0"
+  }
 }

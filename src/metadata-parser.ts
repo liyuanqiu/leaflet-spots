@@ -1,7 +1,7 @@
-import { LatLng, Path } from "leaflet";
+import { LatLng, Layer } from "leaflet";
 
 export type LatlngParser<T> = (metadata: T) => LatLng;
-export type ShapeParser<T> = (metadata: T) => Path;
+export type ShapeParser<T> = (metadata: T) => Layer;
 export type IdParser<T> = (metadata: T) => string;
 export type ShouldUpdateParser<T> = (prev: T, next: T) => boolean;
 export type FilterationParser<T> = (metadata: T) => boolean;

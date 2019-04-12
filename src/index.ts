@@ -1,7 +1,7 @@
 import {
-  Path,
   LayerGroup, layerGroup,
   LeafletEvent,
+  Layer,
 } from 'leaflet';
 
 /**
@@ -33,7 +33,7 @@ export interface InteractiveOptions {
  * User defined handler for interactive.
  * @template T User data unit
  */
-export type InteractiveHandler<T> = (metadata: T, shape: Path, options: InteractiveOptions) => void;
+export type InteractiveHandler<T> = (metadata: T, shape: Layer, options: InteractiveOptions) => void;
 
 /**
  * The options to create the instance of `LeafletSpots`
@@ -63,7 +63,7 @@ export interface LeafletSpotsOptions<T> {
  */
 export interface SpotUnit<T> {
   metadata: T;
-  shape: Path;
+  shape: Layer;
 }
 
 /**
