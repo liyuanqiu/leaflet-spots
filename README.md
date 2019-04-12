@@ -17,6 +17,11 @@ A: https://leafletjs.com/
 
 ---
 
+### Demo
+https://liyuanqiu.github.io/leaflet-spots/demo/index.html
+
+---
+
 ### Quick Start
 Assume you have a list of realtime bus data:
 ```json
@@ -110,5 +115,5 @@ changedBusList.forEach(bus => leafletSpots.updateSpot(bus));
   - [x] Introduce
   - [x] Quick Start
   - [ ] API Reference
-- [ ] Demo page
+- [x] Demo page
 - [x] Publish to NPM
