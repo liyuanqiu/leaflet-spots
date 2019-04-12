@@ -40,10 +40,9 @@ Assume you have a list of realtime bus data:
 ```
 Now you want to render them on a [leaflet](https://leafletjs.com/) map.
 ```typescript
-// This repo has not been published to NPM
 import LeafletSpots, {
   MetadataParser,
-} from '^_^';
+} from 'leaflet-spots';
 
 import {
   latLng, LatLng,
