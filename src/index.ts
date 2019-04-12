@@ -5,7 +5,7 @@ import {
 } from 'leaflet';
 
 /**
- * Use `MetadatParser` to parse user data.
+ * Use `MetadataParser` to parse user data.
  */
 import MetadataParser from './metadata-parser';
 
