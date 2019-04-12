@@ -9,6 +9,10 @@ import {
  */
 import MetadataParser from './metadata-parser';
 
+export {
+  MetadataParser,
+};
+
 /**
  * The spot events which will be attached to the spot.
  * @template T User data unit
