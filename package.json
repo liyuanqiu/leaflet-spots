@@ -17,6 +17,10 @@
   "peerDependencies": {
     "leaflet": "^1.4.0"
   },
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/liyuanqiu/leaflet-spots"
+  },
   "files": [
     "src",
     "dist",
