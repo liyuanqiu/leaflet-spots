@@ -1,7 +1,7 @@
 {
   "name": "leaflet-spots",
-  "version": "0.0.8",
-  "main": "src/index.ts",
+  "version": "0.0.9",
+  "main": "dist/index.js",
   "license": "MIT",
   "scripts": {
     "lint": "eslint -c .eslintrc.js --ext ts --fix --debug src",
