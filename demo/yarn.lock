@@ -1709,10 +1709,10 @@ lcid@^2.0.0:
   dependencies:
     invert-kv "^2.0.0"
 
-leaflet-spots@^0.0.9:
-  version "0.0.9"
-  resolved "https://registry.yarnpkg.com/leaflet-spots/-/leaflet-spots-0.0.9.tgz#8ef61e2e5cf403e258a8c73b827f20eb8d83fcb3"
-  integrity sha512-DAbrUwTssVujGd4KIny2yjabv2qsUeaEL9vqBwpLaVd4IwLH1UCeY+c3SnbjQ/qhKXZkEVxr1Kel2Qospy+qlg==
+leaflet-spots@^0.0.10:
+  version "0.0.10"
+  resolved "https://registry.yarnpkg.com/leaflet-spots/-/leaflet-spots-0.0.10.tgz#c4c5e3590a967fb4e82bb6c7b757204b756dc107"
+  integrity sha512-t3Tp91T5d6xXIIxiCil1klR9P6OOx0M21/nsOqBx/TyXp74x/m8XuZlF/S7LrvTR9dF6pZ15HIUeNPoOl21Ovw==
   dependencies:
     leaflet "^1.4.0"
 
