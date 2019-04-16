@@ -108,7 +108,7 @@ changedBusList.forEach(bus => leafletSpots.updateSpot(bus));
 
 ### Road Map
 - [x] Support `Typescript`
-- [ ] Support `Javascript`
+- [x] Support `Javascript`
 - [ ] Testing
 - [x] Logo
 - [ ] User manual
