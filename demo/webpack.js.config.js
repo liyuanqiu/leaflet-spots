@@ -1,15 +1,10 @@
 const path = require('path');
 
 module.exports = {
-  entry: './index.ts',
+  entry: './index.js',
   devtool: 'inline-source-map',
   module: {
     rules: [
-      {
-        test: /\.ts$/,
-        use: 'ts-loader',
-        // exclude: /node_modules/,
-      },
       {
         test: /\.js$/,
         loader: require.resolve('babel-loader'),
@@ -22,7 +17,7 @@ module.exports = {
     ],
   },
   resolve: {
-    extensions: [ '.ts', '.js' ],
+    extensions: [ '.js' ],
   },
   output: {
     filename: 'bundle.js',
