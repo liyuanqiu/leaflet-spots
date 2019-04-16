@@ -22,6 +22,15 @@ https://liyuanqiu.github.io/leaflet-spots/demo/index.html
 
 ---
 
+### Installation
+```bash
+yarn add leaflet-spots
+// or
+// npm install leaflet-spots
+```
+
+---
+
 ### Quick Start
 Assume you have a list of realtime bus data:
 ```json
