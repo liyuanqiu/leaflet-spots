@@ -1,17 +1,11 @@
-import {
-  LayerGroup, layerGroup,
-  LeafletEvent,
-  Layer,
-} from 'leaflet';
+import { LayerGroup, layerGroup, LeafletEvent, Layer } from 'leaflet';
 
 /**
  * Use `MetadataParser` to parse user data.
  */
 import MetadataParser from './metadata-parser';
 
-export {
-  MetadataParser,
-};
+export { MetadataParser };
 
 /**
  * The spot events which will be attached to the spot.
@@ -33,7 +27,11 @@ export interface InteractiveOptions {
  * User defined handler for interactive.
  * @template T User data unit
  */
-export type InteractiveHandler<T> = (metadata: T, shape: Layer, options: InteractiveOptions) => void;
+export type InteractiveHandler<T> = (
+  metadata: T,
+  shape: Layer,
+  options: InteractiveOptions,
+) => void;
 
 /**
  * The options to create the instance of `LeafletSpots`
@@ -85,29 +83,34 @@ class LeafletSpots<T> {
    * @template T User data unit
    */
   protected metadataParser: MetadataParser<T>;
+
   /**
    * Spots data storage
    * @protected
    * @template T User data unit
    */
   protected spots: Spots<T>;
+
   /**
    * The layer that all the spots are rendered on
    * @protected
    */
   protected layer: LayerGroup;
+
   /**
    * Current selected spot's id
    * `id` is parsed from user data by `MetadataParser`
    * @protected
    */
   private selected: string | null;
+
   /**
    * Spots' event
    * @private
    * @template T User data unit
    */
   private spotEvents: SpotEvents<T>;
+
   /**
    * Interactive handler
    * @private
@@ -118,7 +121,7 @@ class LeafletSpots<T> {
   public constructor({
     metadataParser,
     spotEvents = {},
-    handleInteractive = (): void => {},
+    handleInteractive = () => {},
   }: LeafletSpotsOptions<T>) {
     this.metadataParser = metadataParser;
     this.spotEvents = spotEvents;
@@ -130,9 +133,8 @@ class LeafletSpots<T> {
 
   /**
    * Get the layer object
-   * @returns {LayerGroup} the layer
    */
-  public getLayer(): LayerGroup {
+  public getLayer() {
     return this.layer;
   }
 
@@ -141,26 +143,24 @@ class LeafletSpots<T> {
    * 1. add non-existing spots(by id)
    * 2. update existing spots(by id)
    * 3. remove excess spots(by id)
-   * @param {T[]} spots 
+   * @param {T[]} spots
    */
-  public setSpots(spots: T[]): void {
+  public setSpots(spots: T[]) {
     const { parseId, parseShouldUpdate } = this.metadataParser;
     const spotsMap: {
       [id: string]: 1;
     } = {};
-    spots.forEach((metadata: T): void => {
+    spots.forEach((metadata: T) => {
       const id = parseId(metadata);
       spotsMap[id] = 1;
       const spotUnit = this.spots[id];
       if (spotUnit === undefined) {
         this.addSpot(metadata);
-      } else {
-        if (parseShouldUpdate(spotUnit.metadata, metadata)) {
-          this.updateSpot(metadata);
-        }
+      } else if (parseShouldUpdate(spotUnit.metadata, metadata)) {
+        this.updateSpot(metadata);
       }
     });
-    Object.keys(this.spots).forEach((id): void => {
+    Object.keys(this.spots).forEach(id => {
       if (spotsMap[id] === undefined) {
         const { metadata } = this.spots[id];
         this.removeSpot(metadata);
@@ -174,16 +174,16 @@ class LeafletSpots<T> {
    * 2. add spot
    * @param {T} metadata
    */
-  public addSpot(metadata: T): void {
+  public addSpot(metadata: T) {
     const { parseId, parseShape, parseFilteration } = this.metadataParser;
     const id = parseId(metadata);
     if (this.spots[id] !== undefined) {
-      throw new Error('Can\'t add spot. Same id already exists!');
+      throw new Error("Can't add spot. Same id already exists!");
     }
     const shape = parseShape(metadata);
-    Object.keys(this.spotEvents).forEach((eventName): void => {
+    Object.keys(this.spotEvents).forEach(eventName => {
       const handler = this.spotEvents[eventName];
-      shape.on(eventName, (e): void => handler(e, metadata));
+      shape.on(eventName, e => handler(e, metadata));
     });
     shape.addTo(this.layer);
     // handle interactive
@@ -202,9 +202,9 @@ class LeafletSpots<T> {
   /**
    * Remove a spot without unselect it
    * @private for inner usage
-   * @param {T} metadata 
+   * @param {T} metadata
    */
-  private removeSpotWithoutUnselect(metadata: T): void {
+  private removeSpotWithoutUnselect(metadata: T) {
     const { parseId } = this.metadataParser;
     const id = parseId(metadata);
     const spotUnit = this.spots[id];
@@ -222,7 +222,7 @@ class LeafletSpots<T> {
    * 2. unselect it
    * @param {T} metadata
    */
-  public removeSpot(metadata: T): void {
+  public removeSpot(metadata: T) {
     this.removeSpotWithoutUnselect(metadata);
     this.unselectSpot(metadata);
   }
@@ -233,7 +233,7 @@ class LeafletSpots<T> {
    * 2. recreate a new spot
    * @param {T} metadata
    */
-  public updateSpot(metadata: T): void {
+  public updateSpot(metadata: T) {
     this.removeSpotWithoutUnselect(metadata);
     this.addSpot(metadata);
   }
@@ -245,7 +245,7 @@ class LeafletSpots<T> {
    * @param {T} metadata
    * @param {boolean} selected
    */
-  private handleSelection(metadata: T, selected: boolean): void {
+  private handleSelection(metadata: T, selected: boolean) {
     const { parseId } = this.metadataParser;
     const id = parseId(metadata);
     const spotUnit = this.spots[id];
@@ -260,12 +260,12 @@ class LeafletSpots<T> {
    * Select a spot
    * 1. unselect the previous selected one
    * 2. select this one
-   * @param {T} metadata 
+   * @param {T} metadata
    */
-  public selectSpot(metadata: T): void {
+  public selectSpot(metadata: T) {
     if (this.selected !== null) {
-      const { metadata } = this.spots[this.selected];
-      this.unselectSpot(metadata);
+      const { metadata: m } = this.spots[this.selected];
+      this.unselectSpot(m);
     }
     this.handleSelection(metadata, true);
   }
@@ -274,15 +274,15 @@ class LeafletSpots<T> {
    * Unselect a spot
    * @param {T} metadata
    */
-  public unselectSpot(metadata: T): void {
+  public unselectSpot(metadata: T) {
     this.handleSelection(metadata, false);
   }
 
   /**
    * Force rerender all spots
    */
-  public forceRender(): void {
-    Object.keys(this.spots).forEach((id): void => {
+  public forceRender() {
+    Object.keys(this.spots).forEach(id => {
       const { metadata } = this.spots[id];
       this.updateSpot(metadata);
     });

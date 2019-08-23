@@ -1,4 +1,4 @@
-import { LatLng, Layer } from "leaflet";
+import { LatLng, Layer } from 'leaflet';
 
 export type LatlngParser<T> = (metadata: T) => LatLng;
 export type ShapeParser<T> = (metadata: T) => Layer;
@@ -31,17 +31,21 @@ export interface MetadataParserOptions<T> {
 
 export default class MetadataParser<T> {
   public parseLatlng: LatlngParser<T>;
+
   public parseShape: ShapeParser<T>;
+
   public parseId: IdParser<T>;
+
   public parseShouldUpdate: ShouldUpdateParser<T>;
+
   public parseFilteration: FilterationParser<T>;
 
   public constructor({
     parseLatlng,
     parseShape,
     parseId,
-    parseShouldUpdate = (): boolean => true,
-    parseFilteration = (): boolean => true,
+    parseShouldUpdate = () => true,
+    parseFilteration = () => true,
   }: MetadataParserOptions<T>) {
     this.parseLatlng = parseLatlng;
     this.parseShape = parseShape;

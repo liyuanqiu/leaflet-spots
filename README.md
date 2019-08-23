@@ -126,13 +126,15 @@ import LeafletSpots, {
 # class LeafletSpots
 ### constructor
 - Signature
-	```javascript
-	new LeafletSpots({
+	```typescript
+	new LeafletSpots<T>({
 	  metadataParser,
 	  spotEvents = {},
 	  handleInteractive = () => {},
 	})
 	```
+	- T(Generic)
+		> Your data unit type
 	- metadataParser
 	  > Describe how to parse your data
 	  

@@ -1,32 +1,48 @@
 {
   "name": "leaflet-spots",
-  "version": "0.0.10",
+  "version": "0.1.0",
   "main": "dist/index.js",
+  "module": "dist/leaflet-spots.esm.js",
+  "typings": "dist/index.d.ts",
   "license": "MIT",
-  "scripts": {
-    "lint": "eslint -c .eslintrc.js --ext ts --fix --debug src",
-    "build": "yarn lint && tsc"
-  },
-  "devDependencies": {
-    "@types/leaflet": "^1.4.3",
-    "@typescript-eslint/eslint-plugin": "^1.6.0",
-    "@typescript-eslint/parser": "^1.6.0",
-    "eslint": "^5.16.0",
-    "typescript": "^3.4.1"
-  },
-  "peerDependencies": {
-    "leaflet": "^1.4.0"
-  },
+  "files": [
+    "dist"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/liyuanqiu/leaflet-spots"
   },
-  "files": [
-    "src",
-    "dist",
-    "assets"
-  ],
-  "dependencies": {
+  "scripts": {
+    "start": "tsdx watch",
+    "build": "tsdx build",
+    "test": "tsdx test",
+    "lint": "tsdx lint"
+  },
+  "peerDependencies": {
     "leaflet": "^1.4.0"
-  }
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
+  },
+  "devDependencies": {
+    "@types/jest": "^24.0.18",
+    "@types/leaflet": "^1.5.1",
+    "@typescript-eslint/eslint-plugin": "^2.0.0",
+    "@typescript-eslint/parser": "^2.0.0",
+    "eslint": "6.1.0",
+    "eslint-config-airbnb-base": "14.0.0",
+    "eslint-config-prettier": "^6.1.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-prettier": "^3.1.0",
+    "husky": "^3.0.4",
+    "leaflet": "^1.5.1",
+    "prettier": "^1.18.2",
+    "pretty-quick": "^1.11.1",
+    "tsdx": "^0.8.0",
+    "tslib": "^1.10.0",
+    "typescript": "^3.5.3"
+  },
+  "dependencies": {}
 }
