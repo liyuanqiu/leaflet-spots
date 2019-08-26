@@ -1,0 +1,24 @@
+{
+  "name": "demo",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "author": "yuanqiulee@gmail.com",
+  "license": "MIT",
+  "scripts": {
+    "clear": "rm -rf dist/*",
+    "build": "yarn clear && webpack --mode production",
+    "build-js": "yarn clear && webpack --mode production --config webpack.js.config.js"
+  },
+  "dependencies": {
+    "leaflet": "^1.4.0",
+    "leaflet-spots": "^0.0.10"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.4.3",
+    "babel-loader": "^8.0.5",
+    "ts-loader": "^5.3.3",
+    "typescript": "^3.4.3",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.3.0"
+  }
+}
