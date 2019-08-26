@@ -29,7 +29,7 @@ export interface MetadataParserOptions<T> {
   parseFilteration?: FilterationParser<T>;
 }
 
-export default class MetadataParser<T> {
+export class MetadataParser<T> {
   public parseLatlng: LatlngParser<T>;
 
   public parseShape: ShapeParser<T>;

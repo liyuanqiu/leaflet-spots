@@ -1,11 +1,10 @@
 import { LayerGroup, layerGroup, LeafletEvent, Layer } from 'leaflet';
-
 /**
  * Use `MetadataParser` to parse user data.
  */
-import MetadataParser from './metadata-parser';
+import { MetadataParser } from './metadata-parser';
 
-export { MetadataParser };
+export * from './metadata-parser';
 
 /**
  * The spot events which will be attached to the spot.
