@@ -75,7 +75,7 @@ export interface Spots<T> {
  * Render engine for rendering spots on `leaflet` based system.
  * @template T User data unit
  */
-class LeafletSpots<T> {
+export class LeafletSpots<T> {
   /**
    * A helper to parse user data T
    * @protected
@@ -211,7 +211,7 @@ class LeafletSpots<T> {
       return;
     }
     const { shape } = spotUnit;
-    shape.remove();
+    this.layer.removeLayer(shape);
     delete this.spots[id];
   }
 
