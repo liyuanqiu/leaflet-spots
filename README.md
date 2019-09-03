@@ -3,371 +3,203 @@
 </p>
 
 ### Introduce
-> `leaflet-spots` is a paradigm and tool of rendering spots on a [leaflet](https://leafletjs.com/) map.
+
+> `leaflet-spots` is a paradigm and tool for rendering spots on a [leaflet](https://leafletjs.com/) map.
+
 ---
+
 ### Motivation
-I work with data visualization on maps. Here's some typical scenarios:
+
+Part of my job is data visualization based on geographic location. For example:
+
 - Texi/bus realtime positioning
 - IoT realtime positioning
-- Satellites project on earth
+- Satellites projecting on earth
 - User distribution
 
-Each of them(taxi, IoT, satellite projection, user) will be drawn on the map, I call them `spot`.
+Taxis, buses, IoT devices, satellite projections, users need to be drawn on the map, and I call them `spot`. A taxi is a spot, a user is a spot, etc.
+
+See this example:
 <img width="500" src="https://github.com/liyuanqiu/leaflet-spots/raw/master/assets/screenshot.png?sanitize=true">
 
-Each project has an almost same logic, so I decide to singleton it out, try to make it becoming a common plugin of `leaflet`.
+This kind of projects have an almost same logic, so I decided to abstract it out to be a common extension of `leaflet`.
 
 ---
 
 ### Demo
-https://liyuanqiu.github.io/leaflet-spots/demo/index.html
+
+https://codesandbox.io/s/leaflet-spot-demo-80eyw
 
 ---
 
 ### Installation
+
 ```bash
+# install dependency
+yarn add leaflet
+// or
+// npm install --save leaflet
+```
+
+```bash
+# install leaflet-spots
 yarn add leaflet-spots
 // or
-// npm install leaflet-spots
+// npm install --save leaflet-spots
 ```
 
 ---
 
 ### Quick Start
-Assume you have a list of realtime bus data:
-```json
-[
-  {
-    "busId": "AL-001",
-    "lat": 33.483249,
-    "lng": -86.745463,
-    "driverId": "ALBD-1935",
-    "passenger": 21
-  },
-  {
-    "busId": "CA-103",
-    "lat": 37.776183,
-    "lng": -122.421233,
-    "driverId": "CABD-2297",
-    "passenger": 43
-  },
-  ...
-]
-```
-Now you want to render them on a [leaflet](https://leafletjs.com/) map.
-```typescript
-import LeafletSpots, {
-  MetadataParser,
-} from 'leaflet-spots';
 
-import {
-  latLng, LatLng,
-  Map, Layer,
-} from 'leaflet';
+See this demo with source code:
 
-// define your data structure
-interface BusData {
-  busId: string;
-  lat: number;
-  lng: number;
-  driverId: string;
-  passenger: number;
-}
-
-// Assume you have a leaflet map instance
-const map: Map = ...;
-
-// Assume you have a list of bus data
-const busList: BusData[] = ...;
-
-// Create instance of MetadataParser
-const metadataParser = new MetadataParser<BusData>({
-  // Tell me how to parse lat and lng from your data
-  parseLatlng(busData): LatLng {
-    return latLng(busData.lat, busData.lng);
-  },
-  // Tell me how to parse id from your data
-  parseId(busData): string {
-    return busData.busId;
-  },
-  // Tell me how to draw a shape according to your data
-  parseShape(busData): Layer {
-    // Assume `createCircle` returns a Circle of leaflet
-    return createCircle(busData);
-  },
-});
-
-// Create instance of LeafletSpots
-const leafletSpots = new LeafletSpots<BusData>({
-  metadataParser,
-});
-
-// Add the layer to map
-leafletSpots.getLayer().addTo(map);
-
-// You can see them in your map!
-leafletSpots.setSpots(busList);
-
-// Assume some bus data changed
-const changedBusList: BusData[] = ...;
-
-// They are updated!
-changedBusList.forEach(bus => leafletSpots.updateSpot(bus));
-```
+https://codesandbox.io/s/leaflet-spot-demo-80eyw
 
 ---
 
 ### API Reference
+
 ```javascript
-import LeafletSpots, {
-  MetadataParser,
-} from 'leaflet-spots';
+import { LeafletSpots, MetadataParser } from 'leaflet-spots';
 ```
-# class LeafletSpots
-### constructor
-- Signature
-	```typescript
-	new LeafletSpots<T>({
-	  metadataParser,
-	  spotEvents = {},
-	  handleInteractive = () => {},
-	})
-	```
-	- T(Generic)
-		> Your data unit type
-	- metadataParser
-	  > Describe how to parse your data
-	  
-	  See: [Metadata Parser]()
-	- spotEvents
 
-	  > Attach events to each spot.
-	  
-	  Example:
-		```javascript
-		// this will attach `click` and `contextmenu` events to each spot.
-		{
-		  click(...args) {
-		    console.log(args);
-		  },
-		  contextmenu(...args) {
-		    console.log(args);
-		  },
-		}
-		```
-	- handleInteractive
+#### class MetadataParser\<T\>
 
-	  > Handle some special interactive like `filter` and `select`
-	  - Signature
-	    ```typescript
-	    interface InteractiveOptions {
-		  filtered: boolean;
-		  selected: boolean;
-		}
-	    type InteractiveHandler<T> = (
-		  metadata: T,
-		  shape: Layer,
-		  options: InteractiveOptions,
-		) => void;
-	    ```
-	  - Example
-	    ```typescript
-	    // each time a spot is created / modified, this function will be called
-	    // you can do something to respond to interactives
-	    (
-	      // your spot data
-	      metadata,
-	      // rendered shape instance
-	      shape,
-	      {
-	        // whether this spot is filtered
-	        // `filtered` is calculated by:
-	        //   metadataParser.parseFilteration
-	        //   default is true
-	        filtered,
-	        // whether this spot is selected
-	        // `selected` will be true if you call:
-	        //   leafletSpots.selectSpot()
-	        selected,
-	      },
-	    ) => {
-	      // do something to your shape!
-	      if (filtered === false) {
-	        shape.remove();
-	      }
-	    }
-	    ```
-### instance.getLayer
-> Get leaflet layer that contains all your spots
-- Signature
-	```typescript
-	import { LayerGroup } from 'leaflet';
-	public getLayer(): LayerGroup
-	```
-- Example
-	```typescript
-	// assume `map` is a leaflet map instance
-	instance.getLayer().addTo(map);
-	```
-### instance.setSpots
-> Performing a batch update
-- Signature
-    ```typescript
-    public setSpots(spots: T[]): void
-    ```
-- Arguments
-	- spots
-	  Your data set.
-	- T(Generic)
-	  Your data unit type
-- Example
-	```typescript
-	// assume you have no spots now
-	const data: T[] = [...];
-	// it will render all your data to spots
-	//   according to metadataParser
-	instance.setSpots(data);
-	// now data changed
-	const newData: T[] = [...];
-	// it will compare `newData` with `data` automatically
-	//   according to id(calculated by metadataParser.parseId)
-	//
-	// adding (newData ∖ data)
-	// removing (data ∖ newData)
-	// updating (data ∩ newData)
-	//
-	// whether performing an update is according to
-	//   metadataParser.parseShouldUpdate
-	instance.setSpots(newData);
-	```
-### instance.addSpot
-> Add a spot to map
-- Signature
-	```typescript
-	public addSpot(metadata: T): void
-	```
-- Arguments
-	- metadata
-	  Your data unit
-	- T(Generic)
-	  Type of your data unit
-- Example
-	```typescript
-	const unit: T = {
-	  ...
-	};
-	instance.addSpot(unit);
-	```
-### instance.removeSpot
-> Remove a spot from map
-- Signature
-	```typescript
-	public removeSpot(metadata: T): void
-	```
-- Arguments
-	- metadata
-	  Your data unit
-	- T(Generic)
-	  Type of your data unit
-- Example
-	```typescript
-	const unit: T = {
-	  ...
-	};
-	instance.addSpot(unit);
-	instance.removeSpot(unit);
-	```
-### instance.updateSpot
-> Update a spot
-> Note: this method ignores `metadataParser.parseShouldUpdate`
-- Signature
-	```typescript
-	public updateSpot(metadata: T): void
-	```
-- Arguments
-	- metadata
-	  Your data unit
-	- T(Generic)
-	  Type of your data unit
-- Example
-	```typescript
-	const unit: T = {
-	  ...
-	};
-	instance.addSpot(unit);
-	// modify your data
-	const newUnit: T = modify(unit);
-	instance.updateSpot(unit);
-	```
-### instance.selectSpot
-> Select a spot
-- Signature
-	```typescript
-	public selectSpot(metadata: T): void
-	```
-- Arguments
-	- metadata
-	  Your data unit
-	- T(Generic)
-	  Type of your data unit
-- Example
-	```typescript
-	const unit: T = {
-	  ...
-	};
-	instance.addSpot(unit);
-	instance.selectSpot(unit);
-	```
-### instance.unselectSpot
-> Unselect a spot
-- Signature
-	```typescript
-	public unselectSpot(metadata: T): void
-	```
-- Arguments
-	- metadata
-	  Your data unit
-	- T(Generic)
-	  Type of your data unit
-- Example
-	```typescript
-	const unit: T = {
-	  ...
-	};
-	instance.addSpot(unit);
-	instance.selectSpot(unit);
-	instance.unselectSpot(unit);
-	```
-### instance.forceRender
-> Force rerender all spots
-> Note: this method ignores `metadataParser.parseShouldUpdate`
-- Signature
-	```typescript
-	public forceRender(): void
-	```
-- Example
-	```typescript
-	// assume you have no spots now
-	const data: T[] = [...];
-	// it will render all your data to spots
-	//   according to metadataParser
-	instance.setSpots(data);
-	instance.forceRender();
-	```
+> Describe how to parse your data in class MetadataParser
 
-# class MetadataParser
-### constructor
+> `T` is the type of your metadata like `{ id: 1, lng: 120, lat: 30 }`
+
+| Method      | Parameters                 | Return | Description |
+| ----------- | -------------------------- | ------ | ----------- |
+| constructor | MetadataParserOptions\<T\> | -      | -           |
+
+##### MetadataParserOptions
+
+```typescript
+export interface MetadataParserOptions<T> {
+  /**
+   * parse lat,lng from metadata
+   */
+  parseLatlng: LatlngParser<T>;
+  /**
+   * parse leaflet shape from metadata
+   */
+  parseShape: ShapeParser<T>;
+  /**
+   * parse id from metadata
+   */
+  parseId: IdParser<T>;
+  /**
+   * parse whether the station should be update
+   */
+  parseShouldUpdate?: ShouldUpdateParser<T>;
+  /**
+   * parse whether the station is filtered
+   */
+  parseFilteration?: FilterationParser<T>;
+}
+```
+
+##### Parser types
+
+```typescript
+export type LatlngParser<T> = (metadata: T) => LatLng;
+export type ShapeParser<T> = (metadata: T) => Layer;
+export type IdParser<T> = (metadata: T) => string;
+export type ShouldUpdateParser<T> = (prev: T, next: T) => boolean;
+export type FilterationParser<T> = (metadata: T) => boolean;
+```
+
+#### class LeafletSpots\<T\>
+
+> Using this class to visualize your data
+
+> `T` is the type of your metadata like `{ id: 1, lng: 120, lat: 30 }`
+
+| Method       | Parameters               | Return                                                              | Description                                                           |
+| ------------ | ------------------------ | ------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| constructor  | LeafletSpotsOptions\<T\> | -                                                                   | -                                                                     |
+| getLayer     | -                        | [LayerGroup](https://leafletjs.com/reference-1.5.0.html#layergroup) | The layer group that holds all the spots                              |
+| setSpots     | T[]                      | void                                                                | Set spots data, LeafletSpots will render them to leaflet map instance |
+| addSpot      | T                        | void                                                                | Add a spot to leaflet map instance                                    |
+| removeSpot   | T                        | void                                                                | Remove a spot from leaflet map instance                               |
+| updateSpot   | T                        | void                                                                | Update a spot in leaflet map instance                                 |
+| selectSpot   | T                        | void                                                                | Mark this spot to be selected                                         |
+| unselectSpot | T                        | void                                                                | Cancel selection                                                      |
+| forceRender  | -                        | void                                                                | Force rerender all spots                                              |
 
 ---
 
+##### LeafletSpotsOptions
+
+```typescript
+/**
+ * The options to create the instance of `LeafletSpots`
+ * @template T User data unit
+ */
+export interface LeafletSpotsOptions<T> {
+  /**
+   * Use `MetadatParser` to parse user data.
+   * @template T User data unit
+   */
+  metadataParser: MetadataParser<T>;
+  /**
+   * The spot events which will be attached to the spot.
+   * @template T User data unit
+   */
+  spotEvents?: SpotEvents<T>;
+  /**
+   * handle interactive like 'selected', 'filtered', etc
+   * @template T User data unit
+   */
+  handleInteractive?: InteractiveHandler<T>;
+}
+```
+
+##### SpotEvents\<T\>
+
+```typescript
+/**
+ * The spot events which will be attached to the spot.
+ * @template T User data unit
+ */
+export interface SpotEvents<T> {
+  [eventName: string]: (e: LeafletEvent, metadata: T) => void;
+}
+```
+
+##### InteractiveHandler\<T\>
+
+```typescript
+/**
+ * Interactive options.
+ */
+export interface InteractiveOptions {
+  filtered: boolean;
+  selected: boolean;
+}
+
+/**
+ * User defined handler for interactive.
+ * @template T User data unit
+ */
+export type InteractiveHandler<T> = (
+  metadata: T,
+  shape: Layer,
+  options: InteractiveOptions,
+) => void;
+```
+
 ### Road Map
+
 - [x] Support `Typescript`
 - [x] Support `Javascript`
 - [ ] Testing
 - [x] Logo
-- [ ] User manual
+- [x] User manual
   - [x] Introduce
   - [x] Quick Start
-  - [ ] API Reference
+  - [x] API Reference
 - [x] Demo page
 - [x] Publish to NPM
